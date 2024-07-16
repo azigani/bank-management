@@ -98,6 +98,7 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import com.alphonse.bankback.entities.Credentials;
+import com.alphonse.bankback.entities.Role;
 import com.alphonse.bankback.entities.Utilisateur;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -111,6 +112,7 @@ public class UserDetailsImpl implements UserDetails {
     private boolean credentialsNonExpired;
     private boolean enabled;
     List<GrantedAuthority> authorities;
+//    private Role role;
 
     public UserDetailsImpl(Utilisateur user, Credentials credentials) {
         this.username = user.getLogin();
@@ -119,34 +121,15 @@ public class UserDetailsImpl implements UserDetails {
         this.accountNonExpired = credentials.isAccountNonExpired();
         this.credentialsNonExpired = credentials.isCredentialsNonExpired();
         this.accountNonLocked = credentials.isAccountNonLocked();
-//
-//        authorities = convertPermissionsToAuthorities(user.getRole().getPermissions());
-//        GrantedAuthority roleAuthority = () -> user.getRole().getCode();
-//        authorities.add(roleAuthority);
+        GrantedAuthority authority = () -> user.getRole().getCode();
+        authorities = Arrays.asList(authority);
+
 
     }
 
-//    private List<GrantedAuthority> convertPermissionsToAuthorities(Set<Permission> permissions) {
-//        if(permissions != null) {
-//            return permissions.stream()
-//                    .map(permission -> {
-//                        GrantedAuthority authority = () -> permission.getCode();
-//                        return authority;
-//                    })
-//                    .collect(Collectors.toList());
-//        }
-//        return new ArrayList<>();
-//    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = Arrays.asList("ADMIN", "GESTION_UTILISATEURS", "GESTION_ROLES")
-                .stream()
-                .map(permission -> {
-                    GrantedAuthority test = () -> permission;
-                    return test;
-                })
-                .collect(Collectors.toList());
+
         return authorities;
     }
 

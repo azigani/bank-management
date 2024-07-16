@@ -4,7 +4,7 @@ public enum Fonctionnalites {
 
     GESTION_UTILISATEURS("/users" ,  "Gestion des utilisateurs"),
     GESTION_JOURNAUX("/logs","Gestion des journaux"),
-    GESTION_ROLES("/roles","Gestion des roles");
+    GESTION_PERMISSIONS("/permissions","Gestion des permissions");
 
     String path;
     String label;
