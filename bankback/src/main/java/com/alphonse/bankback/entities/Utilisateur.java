@@ -17,7 +17,7 @@ public class Utilisateur {
 
     private String email;
 
-    private String password;
+//    private String password;
 
     @ManyToOne(fetch = FetchType.LAZY)
 
@@ -58,13 +58,13 @@ public class Utilisateur {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+//    public String getPassword() {
+//        return password;
+//    }
+//
+//    public void setPassword(String password) {
+//        this.password = password;
+//    }
 
     public Role getRole() {
         return role;
