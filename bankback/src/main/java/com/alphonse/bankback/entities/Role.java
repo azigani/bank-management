@@ -1,6 +1,7 @@
 package com.alphonse.bankback.entities;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Role {
@@ -13,6 +14,11 @@ public class Role {
     private String code;
 
     private String nom;
+    /**
+     * Le set est utilisé ici pour éviter d'avoir des élements dépréciés
+     */
+    @OneToMany(fetch = FetchType.EAGER)
+    private Set<Permission> permissions;
 
     public Long getId() {
         return id;
@@ -36,5 +42,13 @@ public class Role {
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    public Set<Permission> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(Set<Permission> permissions) {
+        this.permissions = permissions;
     }
 }

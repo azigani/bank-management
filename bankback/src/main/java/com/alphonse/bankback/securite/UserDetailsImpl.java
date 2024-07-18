@@ -90,14 +90,12 @@
 
 package com.alphonse.bankback.securite;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import com.alphonse.bankback.entities.Credentials;
+import com.alphonse.bankback.entities.Permission;
 import com.alphonse.bankback.entities.Role;
 import com.alphonse.bankback.entities.Utilisateur;
 import org.springframework.security.core.GrantedAuthority;
@@ -112,7 +110,7 @@ public class UserDetailsImpl implements UserDetails {
     private boolean credentialsNonExpired;
     private boolean enabled;
     List<GrantedAuthority> authorities;
-//    private Role role;
+//   private Role role;
 
     public UserDetailsImpl(Utilisateur user, Credentials credentials) {
         this.username = user.getLogin();
@@ -121,10 +119,26 @@ public class UserDetailsImpl implements UserDetails {
         this.accountNonExpired = credentials.isAccountNonExpired();
         this.credentialsNonExpired = credentials.isCredentialsNonExpired();
         this.accountNonLocked = credentials.isAccountNonLocked();
+//        this.role= user.getRole();
         GrantedAuthority authority = () -> user.getRole().getCode();
         authorities = Arrays.asList(authority);
+        authorities = convertPermissionsToAutorities(user.getRole().getPermissions());
 
+        GrantedAuthority roleAutority = () -> user.getRole().getCode();
+        authorities.add(roleAutority);
 
+    }
+
+    private List<GrantedAuthority> convertPermissionsToAutorities(Set<Permission> permissions) {
+        if(permissions!=null){
+           return (List<GrantedAuthority>) permissions.stream().
+                   map(permission -> {
+                       GrantedAuthority authority =() -> permission.getCode();
+                       return authority;
+                   })
+                   .collect(Collectors.toSet());
+        }
+        return new ArrayList<>();
     }
 
     @Override
@@ -162,4 +176,8 @@ public class UserDetailsImpl implements UserDetails {
     public boolean isEnabled() {
         return enabled;
     }
+
+//    public Role getRole() {
+//        return role;
+//    }
 }
