@@ -3,7 +3,7 @@ package com.alphonse.bankback.constantes;
 public enum Fonctionnalites {
 
     GESTION_UTILISATEURS("/users" ,  "Gestion des utilisateurs"),
-    GESTION_JOURNAUX("/logs","Gestion des journaux"),
+    GESTION_LOGS("/logs","Gestion des journaux"),
     GESTION_PERMISSIONS("/permissions","Gestion des permissions");
 
     String path;

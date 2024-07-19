@@ -5,6 +5,7 @@ import com.alphonse.bankback.dto.FonctionnalityDto;
 import com.alphonse.bankback.entities.Role;
 import com.alphonse.bankback.services.IPermissionService;
 import com.alphonse.bankback.services.IRoleService;
+import com.alphonse.bankback.trace.Trace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -39,6 +40,7 @@ public class PermissionsController {
 
 	
 	@PostMapping("/add-role")
+	@Trace
 	public ResponseEntity<?> addRole(@RequestBody Role role){
 		if(role != null) {
 			roleService.save(role);
@@ -52,7 +54,7 @@ public class PermissionsController {
 	}
 	
 	@PostMapping("/save-role")
-//	@Trace
+	@Trace
 	public ResponseEntity<?> saveRole(@RequestBody Role role){
 		if(role != null) {
 			role.setPermissions(permissionService.saveAll(role.getPermissions()));
