@@ -28,7 +28,11 @@ public class LogsController {
 	public ResponseEntity<List<TraceData>> getTracesData(){
 		return ResponseEntity.ok(traceDataService.findAll());
 	}
-	
+
+	/**
+	 * En utilisant void nous évitons l'exception générée par le backend
+ 	 * @param response
+	 */
 	@GetMapping("export")
 	public void export(HttpServletResponse response){
 		response.setContentType("application/octet-stream");
